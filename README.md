@@ -25,3 +25,25 @@ like a deactivated account, caused that.
 
 In case of an accepted endorsement, you'll be able to see user information
 as part of the response as well.
+
+## Registration
+
+When an application needs to sign-up a new user, we need to make sure same
+user is not signing up through another application using this back-end auth
+service. That's why it should be responsibility of this service to centralize
+that registration process, which should happen in three steps:
+
+  1. Create a **Registration** resource with new user information
+  2. Send an email to new user using *registration token*
+  3. Use token to create an **Admission** resource validating the process
+
+When the client application gets final admission approval, it will then have
+access to new user identifier for the account just created. There are edge
+cases in this workflow to be considered:
+
+  1. What if there is already a registration in process for the given email?
+  2. What if there is already an account for the given email?
+  3. What if the registration token is not accepted by the Admission?
+  4. What if another application won admission race?
+
+You should consider that and different statuses our API will return.
