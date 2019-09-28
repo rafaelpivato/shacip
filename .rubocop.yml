@@ -3,7 +3,20 @@ require:
 
 inherit_from: .rubocop_todo.yml
 
+AllCops:
+  Exclude:
+    - 'db/schema.rb'
+
 Style/ClassAndModuleChildren:
   Include:
     - 'test/**/*.rb'
   EnforcedStyle: compact
+
+Style/Documentation:
+  Exclude:
+    - 'db/migrate/*.rb'
+    - 'test/**/*.rb'
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - 'db/migrate/*.rb'
