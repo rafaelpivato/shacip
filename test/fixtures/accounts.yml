@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+does:
+  name: Doe's Account
+  number: DOE-S-ACCOUNT
+
+acme:
+  name: ACME Account
+  number: ACME-ACCOUNT

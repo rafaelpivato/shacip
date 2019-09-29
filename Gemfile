@@ -30,6 +30,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 # PoC Auth Service specific
 gem 'bcrypt'
+gem 'nanoid'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger

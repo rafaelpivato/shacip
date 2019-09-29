@@ -4,6 +4,9 @@
 # Users registered in this system
 #
 class User < ApplicationRecord
+  has_many :memberships, dependent: :destroy
+  has_many :accounts, through: :memberships
+
   def password=(value)
     @password = BCrypt::Password.create(value)
   end

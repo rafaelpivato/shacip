@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_28_024914) do
+ActiveRecord::Schema.define(version: 2019_09_28_051308) do
+
+  create_table "accounts", force: :cascade do |t|
+    t.string "name"
+    t.string "number"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["number"], name: "index_accounts_on_number", unique: true
+  end
+
+  create_table "memberships", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "account_id", null: false
+    t.boolean "is_owner"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_memberships_on_account_id"
+    t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email"
@@ -22,4 +40,6 @@ ActiveRecord::Schema.define(version: 2019_09_28_024914) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "memberships", "accounts"
+  add_foreign_key "memberships", "users"
 end

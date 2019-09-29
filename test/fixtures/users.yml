@@ -11,3 +11,9 @@ jane:
   password_digest: <%= BCrypt::Password.create('JANE', cost: 4) %>
   name: Jane Doe
   nickname: Jane
+
+peter:
+  email: peter@example.com
+  password_digest: <%= BCrypt::Password.create('PETER', cost: 4) %>
+  name: Peter Park
+  nickname: Spiderman

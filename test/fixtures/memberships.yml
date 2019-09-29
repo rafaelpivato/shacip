@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+john_does:
+  user: john
+  account: does
+  is_owner: true
+
+jane_does:
+  user: john
+  account: does
+  is_owner: nil
