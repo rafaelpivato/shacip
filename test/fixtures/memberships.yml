@@ -6,6 +6,5 @@ john_does:
   is_owner: true
 
 jane_does:
-  user: john
+  user: jane
   account: does
-  is_owner: nil

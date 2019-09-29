@@ -14,6 +14,10 @@ class Account < ApplicationRecord
     account.number ||= random_number
   end
 
+  def owner
+    memberships.find_by(is_owner: true).user
+  end
+
   def number=(value)
     super(value&.strip)
   end

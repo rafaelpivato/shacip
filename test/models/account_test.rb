@@ -38,6 +38,12 @@ class AccountTest < ActiveSupport::TestCase
     assert_not_empty account.number
   end
 
+  test 'default new number on create' do
+    account = Account.create(name: 'Foo Bar')
+    assert_not_nil account.number
+    assert_not_empty account.number
+  end
+
   test 'assign default number if assigning nil' do
     @account.number = nil
     @account.save

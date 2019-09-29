@@ -7,6 +7,10 @@ class User < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :accounts, through: :memberships
 
+  def display_name
+    name || nickname || Mail::Address(email).local
+  end
+
   def password=(value)
     @password = BCrypt::Password.create(value)
   end

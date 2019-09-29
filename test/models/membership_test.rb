@@ -10,7 +10,7 @@ class MembershipTest < ActiveSupport::TestCase
     membership = Membership.new_account(profile)
     assert_not_nil membership.user, 'Missing user.'
     assert_not_nil membership.account, 'Missing account.'
-    assert membership.owner, 'First user should be owner.'
+    assert membership.is_owner, 'First user should be owner.'
   end
 
   test 'new user existing account' do
@@ -21,7 +21,7 @@ class MembershipTest < ActiveSupport::TestCase
     membership = Membership.add_user account, profile
     assert_not_nil membership.user, 'Missing user.'
     assert_not_nil membership.account, 'Missing account.'
-    assert_not membership.owner, 'Added user should not be owner.'
+    assert_not membership.is_owner, 'Added user should not be owner.'
   end
 
   test 'existing user new account' do
@@ -30,7 +30,7 @@ class MembershipTest < ActiveSupport::TestCase
       membership = Membership.new_account(jane)
       assert_not_nil membership.user, 'Missing user.'
       assert_not_nil membership.account, 'Missing account.'
-      assert membership.owner, 'First user should be owner.'
+      assert membership.is_owner, 'First user should be owner.'
     end
   end
 
@@ -40,7 +40,7 @@ class MembershipTest < ActiveSupport::TestCase
     membership = Membership.add_user account, peter
     assert_not_nil membership.user, 'Missing user.'
     assert_not_nil membership.account, 'Missing account.'
-    assert_not membership.owner, 'Added user should not be owner.'
+    assert_not membership.is_owner, 'Added user should not be owner.'
   end
 
   test 'get account owner' do
@@ -53,29 +53,31 @@ class MembershipTest < ActiveSupport::TestCase
   test 'cannot set owner as account attribute' do
     account = accounts(:does)
     jane = users(:jane)
-    assert_raises MethodError do
+    assert_raises NoMethodError do
       account.owner = jane
     end
   end
 
   test 'cannot set owner as membership attribute' do
     membership = memberships(:jane_does)
-    assert_raises MethodError do
-      membership.owner = true
+    assert_raises InvalidOperation do
+      membership.is_owner = true
     end
   end
 
   test 'change ownership' do
+    account = accounts(:does)
+    assert_not_nil account
     jane_does = memberships(:jane_does)
     john_does = memberships(:john_does)
-    assert john_does.owner, 'Assumption not satisfied.'
+    assert john_does.is_owner, 'Assumption not satisfied.'
     assert_no_difference 'account.memberships.count' do
       jane_does.request_ownership!
     end
-    assert jane_does, 'Request ownership failed.'
+    assert jane_does.is_owner, 'Request ownership failed.'
     john_does.reload
     jane_does.reload
-    assert_not john_does.owner, 'Still owner.'
-    assert jane_does.owner, 'Not owner after reload.'
+    assert_not john_does.is_owner, 'Still owner after reload.'
+    assert jane_does.is_owner, 'Not owner after reload.'
   end
 end
