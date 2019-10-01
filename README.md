@@ -14,7 +14,7 @@ Even though this is an authentication service, we actually don't talk directly
 with end-users and because of that we don't "authenticate" them neither
 "authorize" them. We just tell client apps that provided credentials are valid
 or that are recognized. Right... we could use the term "authenticate", but
-we want to make it evident the difference in our responsibility.
+we want to make it evident such aspect in our responsibility.
 
 As a client application, whenever you are trying to authenticate a user you
 will ask for an endorsement here. That is done by creating an **Endorsement**

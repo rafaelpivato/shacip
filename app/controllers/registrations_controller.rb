@@ -10,12 +10,12 @@ class RegistrationsController < ApplicationController
   def index
     @registrations = Registration.all
 
-    render json: @registrations
+    render json: { data: @registrations }
   end
 
   # GET /registrations/1
   def show
-    render json: @registration
+    render json: { data: @registration }
   end
 
   # POST /registrations
@@ -23,9 +23,10 @@ class RegistrationsController < ApplicationController
     @registration = Registration.new(registration_create_params)
 
     if @registration.save
-      render json: @registration, status: :created, location: @registration
+      render json: { data: @registration }, status: :created,
+             location: @registration
     else
-      render json: @registration.errors, status: :unprocessable_entity
+      render json: { data: @registration.errors }, status: :unprocessable_entity
     end
   end
 
@@ -33,7 +34,7 @@ class RegistrationsController < ApplicationController
   def update
     confirmed = registration_update_params[:confirmed]
     @registration.confirm!(confirmed) if confirmed
-    render json: @registration
+    render json: { data: @registration }
   end
 
   # DELETE /registrations/1

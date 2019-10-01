@@ -25,7 +25,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should update account' do
     patch account_url(@account), params: { name: @account.name }, as: :json
-    assert_response 200
+    assert_response :ok
   end
 
   test 'should not destroy account' do

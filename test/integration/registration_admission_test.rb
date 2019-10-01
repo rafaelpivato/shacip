@@ -8,7 +8,7 @@ class RegistrationAdmissionTest < ActionDispatch::IntegrationTest
     create_params = { email: 'foobar@example.com', password: 'foobar' }
     post registrations_url, params: create_params
     assert_response :created
-    registration_id = json_response['id']
+    registration_id = json_response.dig('data', 'id')
     assert_not_nil registration_id, 'Missing registration id'
 
     # What if we know user exist and don't want to accept registration?
@@ -20,7 +20,7 @@ class RegistrationAdmissionTest < ActionDispatch::IntegrationTest
     patch registration_url(registration_id), params: update_params
     assert_response :ok
 
-    user_id = json_response.dig('user', 'id')
+    user_id = json_response.dig('data', 'user', 'id')
     assert_not_nil user_id, 'Missing user id from admission'
 
     # Load user information from users endpoint

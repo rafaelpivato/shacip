@@ -10,20 +10,20 @@ class AccountsController < ApplicationController
   def index
     @accounts = Account.all
 
-    render json: @accounts
+    render json: { data: @accounts }
   end
 
   # GET /accounts/1
   def show
-    render json: @account
+    render json: { data: @account }
   end
 
   # PATCH/PUT /accounts/1
   def update
     if @account.update(account_params)
-      render json: @account
+      render json: { data: @account }
     else
-      render json: @account.errors, status: :unprocessable_entity
+      render json: { errors: @account.errors }, status: :unprocessable_entity
     end
   end
 
@@ -36,6 +36,6 @@ class AccountsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def account_params
-    params.require(:account).permit(:name)
+    params.permit(:name)
   end
 end
