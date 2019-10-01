@@ -3,50 +3,41 @@
 require 'test_helper'
 
 class EndorsementTest < ActionDispatch::IntegrationTest
-  test 'wrong method' do
-    get endorsement_url
-    assert_response :method_not_allowed
-  end
-
-  test 'bad payload' do
-    post endorsement_url, params: { foobar: 'quxbaz' }
-    assert_response :bad_request
-  end
-
   test 'bad user' do
     credentials = { email: 'foo@example.com', password: 'foobar' }
-    post endorsement_url, params: { credentials: credentials }
+    post endorsements_url, params: credentials
     assert_response :created
-    assert_json 'status', 'rejected'
-    assert_json 'user', nil
+    assert_equal 'rejected', json_response['status']
+    assert_nil json_response['user']
   end
 
   test 'bad password' do
     user = users(:john)
     credentials = { email: user.email, password: 'foobar' }
-    post @endorsement_url, params: { credentials: credentials }
+    post endorsements_url, params: credentials
     assert_response :created
-    assert_json 'status', 'rejected'
-    assert_json 'user', nil
+    assert_equal 'rejected', json_response['status']
+    assert_nil json_response['user']
   end
 
   test 'no clue' do
     user = users(:john)
-    user_cred = { email: 'foo@example.com', password: 'john' }
+    user_cred = { email: 'foo@example.com', password: 'JOHN' }
     pass_cred = { email: user.email, password: 'foo' }
-    post endorsement_url, params: { credentials: user_cred }
+    post endorsements_url, params: user_cred
     bad_user = json_response
-    post endorsement_url, params: { credentials: pass_cred }
+    post endorsements_url, params: pass_cred
     bad_pass = json_response
     assert_equal bad_user, bad_pass
   end
 
   test 'all good' do
     user = users(:john)
-    credentials = { email: user.email, password: 'john' }
-    post endorsement_url, params: { credentials: credentials }
+    credentials = { email: user.email, password: 'JOHN' }
+    post endorsements_url, params: credentials
     assert_response :created
-    assert_json 'status', 'accepted'
-    assert_json 'user.email', user.email
+    assert_equal 'accepted', json_response['status']
+    assert_not_nil json_response['user']
+    assert_equal user.email, json_response.dig('user', 'email')
   end
 end

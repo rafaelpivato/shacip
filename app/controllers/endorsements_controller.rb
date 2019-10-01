@@ -1,0 +1,25 @@
+# frozen_string_literal: true
+
+##
+# Controller for endorsements resource
+#
+class EndorsementsController < ApplicationController
+  # POST /endorsements
+  def create
+    user = User.find_by(email: endorsement_params[:email])
+    if user.nil?
+      render json: { status: :rejected, user: nil }, status: :created
+    elsif user.validate_password(endorsement_params[:password])
+      render json: { status: :accepted, user: user.as_json }, status: :created
+    else
+      render json: { status: :rejected, user: nil }, status: :created
+    end
+  end
+
+  private
+
+  # Filter allowed params
+  def endorsement_params
+    params.permit(:email, :password)
+  end
+end
