@@ -10,6 +10,7 @@ class Membership < ApplicationRecord
   def is_owner=(value)
     raise InvalidOperation, 'Use request_ownership!' unless id.nil?
 
+    value = nil if value == false
     super(value)
   end
 
@@ -29,6 +30,8 @@ class Membership < ApplicationRecord
 
   def self.add_user(account, user)
     user = User.create(user) if user.is_a? Hash
-    Membership.create user: user, account: account, is_owner: false
+    composite = { user: user, account: account }
+    params = { is_owner: false }
+    Membership.create_with(params).find_or_create_by(composite)
   end
 end

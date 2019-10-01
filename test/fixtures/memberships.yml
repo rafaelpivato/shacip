@@ -8,3 +8,11 @@ john_does:
 jane_does:
   user: jane
   account: does
+
+john_acme:
+  user: john
+  account: acme
+
+peter_comics:
+  user: peter
+  account: comics

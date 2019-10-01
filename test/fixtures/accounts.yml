@@ -7,3 +7,7 @@ does:
 acme:
   name: ACME Account
   number: ACME-ACCOUNT
+
+comics:
+  name: Marvel vs DC
+  number: MARVEL-VS-DC

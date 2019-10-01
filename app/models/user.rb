@@ -8,11 +8,11 @@ class User < ApplicationRecord
   has_many :accounts, through: :memberships
 
   def display_name
-    name || nickname || Mail::Address(email).local
+    name || nickname || Mail::Address.new(email).local
   end
 
   def password=(value)
-    @password = BCrypt::Password.create(value)
+    @password_digest = BCrypt::Password.create(value)
   end
 
   ##
