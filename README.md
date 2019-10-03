@@ -1,8 +1,8 @@
 # Shared Account and Identity Provider - shacip
 
-#### Internal REST service managing users and accounts shared by different applications
+**Internal REST service managing users and accounts shared by different applications**
 
-[![CircleCI](https://circleci.com/gh/rafaelpivato/shacip.svg?style=svg)](https://circleci.com/gh/rafaelpivato/shacip)
+[![CircleCI](https://circleci.com/gh/rafaelpivato/shacip.svg?style=svg)](https://circleci.com/gh/rafaelpivato/shacip) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7448ac4940b94f4fb3b330e431d21498)](https://www.codacy.com/manual/rafaelpivato/shacip?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rafaelpivato/shacip&amp;utm_campaign=Badge_Grade)
 
 This serves as a simple REST application to be used internally by different Web
 applications to share a common users and accounts base. **Shacip** will not be
