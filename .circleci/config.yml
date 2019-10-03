@@ -75,6 +75,7 @@ workflows:
       - test:
           requires:
             - build
+            - lint
       - rubocop:
           requires:
             - build
