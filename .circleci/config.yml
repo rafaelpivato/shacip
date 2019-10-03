@@ -13,24 +13,21 @@ jobs:
   build:
     executor: ruby-executor
     steps:
+      - attach_workspace:
+          at: /tmp/shacip
       - checkout
-
       - run:
           name: Which bundler?
           command: bundle -v
-
       - restore_cache:
           key: shacip-alpha-{{ checksum "Gemfile.lock" }}
-
       - run:
           name: Bundle Install
           command: bundle check || bundle install --deployment
-
       - save_cache:
           key: shacip-alpha-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-
       - persist_to_workspace:
           root: /tmp/shacip
           paths:
