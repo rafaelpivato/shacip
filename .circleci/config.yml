@@ -32,7 +32,7 @@ jobs:
             - vendor/bundle
 
   test:
-    executor: ruby/executor
+    executor: ruby-executor
     steps:
       - run:
           name: Database Setup
