@@ -71,6 +71,4 @@ workflows:
   testing:
     jobs:
       - build
-  linter:
-    jobs:
       - lint
