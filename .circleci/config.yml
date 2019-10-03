@@ -1,0 +1,25 @@
+version: 2.1
+executors:
+  ruby-executor:
+    docker:
+      - image: circleci/ruby:2.6.3
+
+jobs:
+  build:
+    executor: ruby-executor
+    steps:
+      - checkout
+      - restore_cache:
+          key: shacip-alpha-{{ checksum "Gemfile.lock" }}
+      - run:
+        - name: Installing gems
+        - command: |
+            bundle check --path=vendor/bundle ||
+            bundle install --path=vendor/bundle --jobs=4 --retry=3
+      - save_cache:
+          key: shacip-alpha-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run:
+        - name: Running Tests
+        - command: rails test
