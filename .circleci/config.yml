@@ -76,12 +76,12 @@ workflows:
     jobs:
       - build
       - lint:
-        requires:
-          - build
+          requires:
+            - build
       - test:
-        requires:
-          - build
+          requires:
+            - build
       - rubocop:
-        requires:
-          - build
-          - lint
+          requires:
+            - build
+            - lint
