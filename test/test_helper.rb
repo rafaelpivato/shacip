@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'codacy-coverage'
+Codacy::Reporter.start
+
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
