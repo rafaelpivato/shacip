@@ -3,21 +3,41 @@ executors:
   ruby-executor:
     docker:
       - image: circleci/ruby:2.6.4
+        environment:
+          BUNDLE_JOBS: 3
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          RAILS_ENV: test
 
 jobs:
   build:
     executor: ruby-executor
     steps:
       - checkout
+
+      - run:
+        name: Which bundler?
+        command: bundle -v
+
       - restore_cache:
           key: shacip-alpha-{{ checksum "Gemfile.lock" }}
+
       - run:
-          name: Installing gems
-          command: gem install bundler && bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+          name: Bundle Install
+          command: bundle check --path vendor/bundle || bundle install --deployment
+
       - save_cache:
           key: shacip-alpha-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+
+      - run:
+          name: Database Setup
+          command: bin/rails db:setup --trace
+
       - run:
           name: Running Tests
-          command: rails test
+          command: bin/rails test
+
+      - store_test_results:
+          path: test/reports

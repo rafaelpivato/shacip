@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+require 'minitest/reporters'
+
+reporters = if ENV.fetch('CI', 'false') == 'true'
+              [Minitest::Reporters::SpecReporter.new,
+               Minitest::Reporters::JUnitReporter.new]
+            else
+              [Minitest::Reporters::DefaultReporter.new]
+            end
+Minitest::Reporters.use! reporters
+
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
