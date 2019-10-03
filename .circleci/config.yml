@@ -66,9 +66,3 @@ jobs:
       - run:
           name: Running Linter
           command: bin/rails rubocop:linter
-
-workflows:
-  testing:
-    jobs:
-      - build
-      - lint
