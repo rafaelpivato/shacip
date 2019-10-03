@@ -37,7 +37,7 @@ jobs:
 
       - run:
           name: Running Tests
-          command: bin/rails test
+          command: bin/rails test --verbose --ci-report
 
       - store_test_results:
           path: test/reports
