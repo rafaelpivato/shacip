@@ -51,7 +51,7 @@ class RegistrationsController < ApplicationController
 
   # Creating and updating are different processes
   def registration_create_params
-    params.permit(:account_id, :email, :password, :params)
+    params.permit(:organization_id, :email, :password, :params)
   end
 
   # You can only update "confirmed" flag

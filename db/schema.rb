@@ -12,26 +12,26 @@
 
 ActiveRecord::Schema.define(version: 2019_09_29_174004) do
 
-  create_table "accounts", force: :cascade do |t|
+  create_table "organizations", force: :cascade do |t|
     t.string "name"
     t.string "number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["number"], name: "index_accounts_on_number", unique: true
+    t.index ["number"], name: "index_organizations_on_number", unique: true
   end
 
   create_table "memberships", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "account_id", null: false
+    t.integer "organization_id", null: false
     t.boolean "is_owner"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id"], name: "index_memberships_on_account_id"
+    t.index ["organization_id"], name: "index_memberships_on_organization_id"
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
   create_table "registrations", force: :cascade do |t|
-    t.integer "account_id"
+    t.integer "organization_id"
     t.string "user_id"
     t.string "email"
     t.string "password_digest"
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2019_09_29_174004) do
     t.string "confirmed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id"], name: "index_registrations_on_account_id"
+    t.index ["organization_id"], name: "index_registrations_on_organization_id"
     t.index ["user_id"], name: "index_registrations_on_user_id"
   end
 
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 2019_09_29_174004) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "memberships", "accounts"
+  add_foreign_key "memberships", "organizations"
   add_foreign_key "memberships", "users"
-  add_foreign_key "registrations", "accounts"
+  add_foreign_key "registrations", "organizations"
 end

@@ -4,7 +4,7 @@
 # Represents an intention of an user to register against this system
 #
 class Registration < ApplicationRecord
-  belongs_to :account, optional: true
+  belongs_to :organization, optional: true
   belongs_to :user, optional: true
 
   def password=(value)
@@ -31,7 +31,7 @@ class Registration < ApplicationRecord
   #
   def as_json(options = nil)
     options = options&.dup || {}
-    options[:include] = %i[account user]
+    options[:include] = %i[organization user]
     json = super(options)
     json.delete 'password'
     json.delete 'password_digest'
@@ -50,11 +50,11 @@ class Registration < ApplicationRecord
   end
 
   def create_membership
-    if account.nil?
+    if organization.nil?
       user.memberships.find_by(is_owner: true) ||
-        Membership.new_account(user)
+        Membership.new_organization(user)
     else
-      Membership.add_user(account, user)
+      Membership.add_user(organization, user)
     end
   end
 end

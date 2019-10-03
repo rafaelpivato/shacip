@@ -41,9 +41,9 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     assert_response 201
   end
 
-  test 'should create registration against existing account' do
+  test 'should create registration against existing organization' do
     params = {
-      account: accounts(:acme).id,
+      organization: organizations(:acme).id,
       email: 'foobar@example.com',
       password: 'foobar'
     }
