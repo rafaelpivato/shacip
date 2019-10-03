@@ -13,8 +13,6 @@ jobs:
   build:
     executor: ruby-executor
     steps:
-      - attach_workspace:
-          at: ~/project
       - checkout
       - run:
           name: Which bundler?
@@ -32,11 +30,6 @@ jobs:
   test:
     executor: ruby-executor
     steps:
-      - checkout
-      - attach_workspace:
-          at: ~/project
-      - restore_cache:
-          key: shacip-alpha-{{ checksum "Gemfile.lock" }}
       - run:
           name: Database Setup
           command: bin/rails db:setup --trace
@@ -49,11 +42,6 @@ jobs:
   lint:
     executor: ruby-executor
     steps:
-      - checkout
-      - attach_workspace:
-          at: ~/project
-      - restore_cache:
-          key: shacip-alpha-{{ checksum "Gemfile.lock" }}
       - run:
           name: Running Linter
           command: bin/rails rubocop:linter
