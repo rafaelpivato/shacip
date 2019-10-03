@@ -16,8 +16,8 @@ jobs:
       - checkout
 
       - run:
-        name: Which bundler?
-        command: bundle -v
+          name: Which bundler?
+          command: bundle -v
 
       - restore_cache:
           key: shacip-alpha-{{ checksum "Gemfile.lock" }}
