@@ -1,7 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 clark:
-  account: comics
+  organization: comics
   email: superman@example.com
   password_digest: <%= BCrypt::Password.create('CLARK', cost: 4) %>
   params: name=Clark+Kent&nickname=Superman
@@ -16,7 +16,7 @@ peter:
   params: name=Peter+Park&nickname=Spiderman
 
 jane:
-  account: comics
+  organization: comics
   email: jane@example.com
   params: name=Jane+Doe&nickname=Jane
 
@@ -24,13 +24,13 @@ john_new:
   email: john@example.com
 
 john_existing:
-  account: comics
+  organization: comics
   email: john@example.com
 
 john_participating:
-  account: acme
+  organization: acme
   email: john@example.com
 
 john_owned:
-  account: does
+  organization: does
   email: john@example.com

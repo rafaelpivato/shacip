@@ -5,7 +5,7 @@
 #
 class User < ApplicationRecord
   has_many :memberships, dependent: :destroy
-  has_many :accounts, through: :memberships
+  has_many :organizations, through: :memberships
 
   def display_name
     name || nickname || Mail::Address.new(email).local

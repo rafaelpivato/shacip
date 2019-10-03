@@ -1,11 +1,11 @@
 # Shared Account and Identity Provider - shacip
 
-**Internal REST service managing users and accounts shared by different applications**
+**Internal REST service managing users and organizations shared by different applications**
 
 [![CircleCI](https://circleci.com/gh/rafaelpivato/shacip.svg?style=svg)](https://circleci.com/gh/rafaelpivato/shacip) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7448ac4940b94f4fb3b330e431d21498)](https://www.codacy.com/manual/rafaelpivato/shacip?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rafaelpivato/shacip&amp;utm_campaign=Badge_Grade) [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/7448ac4940b94f4fb3b330e431d21498)](https://www.codacy.com/manual/rafaelpivato/shacip?utm_source=github.com&utm_medium=referral&utm_content=rafaelpivato/shacip&utm_campaign=Badge_Coverage) [![Inline docs](http://inch-ci.org/github/rafaelpivato/shacip.svg?branch=master)](http://inch-ci.org/github/rafaelpivato/shacip)
 
 This serves as a simple REST application to be used internally by different Web
-applications to share a common users and accounts base. **Shacip** will not be
+applications to share a common users and organizations base. **Shacip** will not be
 talking with end-users directly, not even submitting emails for confirmation,
 nor providing them any password reset token or even authentication tokens.
 
@@ -71,7 +71,7 @@ $ http PATCH :3000/registrations/1234 confirmed=cmd.example.com
 }
 ```
 
-When you confirm the registration, an user record and an account will be
+When you confirm the registration, an user record and an organization will be
 created for the user with the credentials provided during registration time.
 While sending an email to the new user, you will most likely wish to encode
 something like a JWT token containing the registration id from this system.

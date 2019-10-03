@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 ##
-# Accounts to be managed or accessed by users
+# Organizations to be managed or accessed by users
 #
-# Accounts will have their unique numbers created using HashIds or NanoId
+# Organizations will have their unique numbers created using HashIds or NanoId
 # with a short alphabet like 'AEFHJLPRSTXY34569'.
 #
-class Account < ApplicationRecord
+class Organization < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
 
-  before_validation do |account|
-    account.number ||= random_number
+  before_validation do |organization|
+    organization.number ||= random_number
   end
 
   def owner

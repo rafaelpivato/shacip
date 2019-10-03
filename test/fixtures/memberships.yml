@@ -2,17 +2,17 @@
 
 john_does:
   user: john
-  account: does
+  organization: does
   is_owner: true
 
 jane_does:
   user: jane
-  account: does
+  organization: does
 
 john_acme:
   user: john
-  account: acme
+  organization: acme
 
 peter_comics:
   user: peter
-  account: comics
+  organization: comics
