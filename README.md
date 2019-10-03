@@ -2,6 +2,8 @@
 
 #### Internal REST service managing users and accounts shared by different applications
 
+[![CircleCI](https://circleci.com/gh/rafaelpivato/shacip.svg?style=svg)](https://circleci.com/gh/rafaelpivato/shacip)
+
 This serves as a simple REST application to be used internally by different Web
 applications to share a common users and accounts base. **Shacip** will not be
 talking with end-users directly, not even submitting emails for confirmation,
