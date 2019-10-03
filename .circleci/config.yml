@@ -2,7 +2,7 @@ version: 2.1
 executors:
   ruby-executor:
     docker:
-      - image: circleci/ruby:2.6.3
+      - image: circleci/ruby:2.6.4
 
 jobs:
   build:
