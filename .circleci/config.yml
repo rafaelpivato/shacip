@@ -28,10 +28,6 @@ jobs:
           key: shacip-alpha-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-      - persist_to_workspace:
-          root: .
-          paths:
-            - vendor/bundle
 
   test:
     executor: ruby-executor
@@ -39,9 +35,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/project
-      - run:
-          name: Bundle Install
-          command: bundle check || bundle install --deployment
+      - restore_cache:
+          key: shacip-alpha-{{ checksum "Gemfile.lock" }}
       - run:
           name: Database Setup
           command: bin/rails db:setup --trace
@@ -57,9 +52,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/project
-      - run:
-          name: Bundle Install
-          command: bundle check || bundle install --deployment
+      - restore_cache:
+          key: shacip-alpha-{{ checksum "Gemfile.lock" }}
       - run:
           name: Running Linter
           command: bin/rails rubocop:linter
@@ -70,9 +64,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/project
-      - run:
-          name: Bundle Install
-          command: bundle check || bundle install --deployment
+      - restore_cache:
+          key: shacip-alpha-{{ checksum "Gemfile.lock" }}
       - run:
           name: Code Analysis
           command: bin/rails rubocop
