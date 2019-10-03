@@ -31,9 +31,17 @@ jobs:
           paths:
             - vendor/bundle
 
+      - persist_to_workspace:
+          root: /tmp/shacip
+          paths:
+            - vendor
+
   test:
     executor: ruby-executor
     steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/shacip
       - run:
           name: Database Setup
           command: bin/rails db:setup --trace
@@ -46,6 +54,9 @@ jobs:
   lint:
     executor: ruby-executor
     steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/shacip
       - run:
           name: Running Linter
           command: bin/rails rubocop:linter
@@ -53,6 +64,9 @@ jobs:
   rubocop:
     executor: ruby-executor
     steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/shacip
       - run:
           name: Code Analysis
           command: bin/rails rubocop
