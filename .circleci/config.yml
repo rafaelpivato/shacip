@@ -67,8 +67,34 @@ jobs:
           name: Running Linter
           command: bin/rails rubocop:linter
 
+  rubocop:
+    executor: ruby-executor
+    steps:
+      - checkout
+
+      - run:
+          name: Which bundler?
+          command: bundle -v
+
+      - restore_cache:
+          key: shacip-alpha-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install --deployment
+
+      - save_cache:
+          key: shacip-alpha-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      - run:
+          name: Running Linter
+          command: bin/rails rubocop
+
 workflows:
   testing:
     jobs:
       - build
       - lint
+      - rubocop
