@@ -75,6 +75,13 @@ workflows:
   testing:
     jobs:
       - build
-      - lint
-      - test
-      - rubocop
+      - lint:
+        requires:
+          - build
+      - test:
+        requires:
+          - build
+      - rubocop:
+        requires:
+          - build
+          - lint
