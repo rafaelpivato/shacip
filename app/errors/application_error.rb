@@ -4,7 +4,7 @@
 # Base class for all errors raised by this application
 #
 class ApplicationError < StandardError
-  def initialize(msg = 'PoC Auth Service error')
+  def initialize(msg = 'Shacip Error')
     super
   end
 end

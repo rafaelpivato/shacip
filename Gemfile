@@ -28,7 +28,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # cross-origin AJAX possible
 # gem 'rack-cors'
 
-# PoC Auth Service specific
+# Shacip specific
 gem 'bcrypt'
 gem 'nanoid'
 

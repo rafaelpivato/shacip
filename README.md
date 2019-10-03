@@ -1,43 +1,75 @@
-# Auth Service
+# Shared Account and Identity Provider - shacip
 
-This API only Rails application aims to show how a simple **User** and
-**Account** account service can used by any platform through a REST-like
-interface or using a friendly gem for Rails specifically.
+#### Internal REST service managing users and accounts shared by different applications
 
-One important note about this service, is that it will not actually talk
-directly with end-users. It will serve other applications that are sharing a
-common user base.
+This serves as a simple REST application to be used internally by different Web
+applications to share a common users and accounts base. **Shacip** will not be
+talking with end-users directly, not even submitting emails for confirmation,
+nor providing them any password reset token or even authentication tokens.
+
+One important note about this service, is that, besides not talking directly
+with end-users, you should not expose it to the Internet. You must keep it
+behind some firewall or restrict access to it somehow. In the future it might
+get some API token support to let us manage whose applications can access
+the service. When that happens we could expose it to public networks.
 
 ## Endorsement
 
-Even though this is an authentication service, we actually don't talk directly
-with end-users and because of that we don't "authenticate" them neither
-"authorize" them. We just tell client apps that provided credentials are valid
-or that are recognized. Right... we could use the term "authenticate", but
-we want to make it evident such aspect in our responsibility.
+Your back-end application will ask for an endorsement when it is about to
+authenticate a client against this user base. That is done by creating an
+**Endorsement** resource and checking its output. Note that HTTP status code
+will be valid even if the credentials are not. That's because an endorsement
+resource gets created anyway.
 
-As a client application, whenever you are trying to authenticate a user you
-will ask for an endorsement here. That is done by creating an **Endorsement**
-resource and checking its output. If the status of created resource says it
-was accepted, then you can let your user to have access to your system. If it
-says it was rejected, then credentials are not valid or some other reason,
-like a deactivated account, caused that.
+```console
+$ http :3000/endorsements email=john@example.com password=johndoe
+{
+  "data": {
+    "status": "accepted",
+    ...
+  }
+}
+```
 
-In case of an accepted endorsement, you'll be able to see user information
-as part of the response as well.
+If above status is `recognized` then you can authenticate the user. In case it
+is `unknown` you should not grant user access because we don't recognize
+provided credentials. There is a third status `inactive` that will be used when
+we do recognize credentials but the user login is not active for some reason.
+As part of a positive response, be it _recognized_ or _inactive_, you will
+receive as well user information.
 
 ## Registration
 
-When an application needs to sign-up a new user, we need to make sure same
-user is not signing up through another application using this back-end auth
-service. That's why it should be responsibility of this service to centralize
-that registration process, which should happen in three steps:
+When your back-end application needs to handle new user sign-up, it should
+create a **Registration** resource. It is your application responsibility to
+confirm end-user email address and continue with the process by updating such
+**Registration** object indicating it was confirmed. These are three steps for
+a common workflow:
 
-  1. Create a **Registration** resource with new user information
-  2. Send an email to new user to confirm the address
-  3. Update **Registration** resource telling the address was confirmed
+1.  Create a **Registration** resource with new user information
+2.  Send an email to new user to confirm the address
+3.  Update **Registration** resource telling the address was confirmed
 
-It is client app responsibility to generate a token with registration
-identifier and any other pertinent information that will be used on step 3
-to mark a registration as confirmed. You can look at
-**RegistrationAdmissionTest** for an example of a successful workflow.
+```console
+$ http :3000/registrations email=john@example.com password=johndoe
+{
+  "data": {
+    "id": 1234,
+    "confirmed": null,
+    ...
+  }
+}
+$ http PATCH :3000/registrations/1234 confirmed=cmd.example.com
+{
+  "data": {
+    "id": 1234,
+    "confirmed": "cmd.example.com",
+    ...
+  }
+}
+```
+
+When you confirm the registration, an user record and an account will be
+created for the user with the credentials provided during registration time.
+While sending an email to the new user, you will most likely wish to encode
+something like a JWT token containing the registration id from this system.
