@@ -31,7 +31,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - vendor
+            - vendor/bundle
 
   test:
     executor: ruby-executor
@@ -39,6 +39,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/project
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install --deployment
       - run:
           name: Database Setup
           command: bin/rails db:setup --trace
@@ -55,6 +58,9 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
+          name: Bundle Install
+          command: bundle check || bundle install --deployment
+      - run:
           name: Running Linter
           command: bin/rails rubocop:linter
 
@@ -64,6 +70,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/project
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install --deployment
       - run:
           name: Code Analysis
           command: bin/rails rubocop
