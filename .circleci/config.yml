@@ -13,7 +13,7 @@ jobs:
           key: shacip-alpha-{{ checksum "Gemfile.lock" }}
       - run:
           name: Installing gems
-          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+          command: gem install bundler && bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
       - save_cache:
           key: shacip-alpha-{{ checksum "Gemfile.lock" }}
           paths:
