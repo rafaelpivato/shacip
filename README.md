@@ -75,3 +75,29 @@ When you confirm the registration, an user record and an organization will be
 created for the user with the credentials provided during registration time.
 While sending an email to the new user, you will most likely wish to encode
 something like a JWT token containing the registration id from this system.
+
+## Client Library
+
+While using this service from another Rails or Ruby application, you should
+preferably use [Shacip Ruby](https://github.com/rafaelpivato/shacip-ruby) gem
+as your client library. That should help you adhering to minor changes made on
+the service in a more controlled fashion. Here is a simplified workflow:
+
+```ruby
+require 'shacip-client'
+
+# Configure the client
+Shacip::Client.configure do |config|
+  config.server_url = 'http://localhost:3001'
+  config.app_name = 'myapp.example.com'
+end
+
+# Register against Shacip
+credentials = { email: 'john@example.com', password: 'johndoe' }
+registration = Registration.create(credentials)
+Registration.confirm(registration.id)
+
+# Endorses user credential
+endorsement = Endorsement.create(credentials)
+puts "Let user #{endorsement.user.name} sign in" if endorsement.recognized
+```
