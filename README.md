@@ -24,7 +24,7 @@ will be valid even if the credentials are not. That's because an endorsement
 resource gets created anyway.
 
 ```console
-$ http :3000/endorsements email=john@example.com password=johndoe
+$ http :3001/endorsements email=john@example.com password=johndoe
 {
   "data": {
     "status": "accepted",
@@ -53,7 +53,7 @@ a common workflow:
 3.  Update **Registration** resource telling the address was confirmed
 
 ```console
-$ http :3000/registrations email=john@example.com password=johndoe
+$ http :3001/registrations email=john@example.com password=johndoe
 {
   "data": {
     "id": 1234,
@@ -61,7 +61,7 @@ $ http :3000/registrations email=john@example.com password=johndoe
     ...
   }
 }
-$ http PATCH :3000/registrations/1234 confirmed=cmd.example.com
+$ http PATCH :3001/registrations/1234 confirmed=cmd.example.com
 {
   "data": {
     "id": 1234,
