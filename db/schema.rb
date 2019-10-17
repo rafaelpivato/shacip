@@ -10,15 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_29_174004) do
-
-  create_table "organizations", force: :cascade do |t|
-    t.string "name"
-    t.string "number"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["number"], name: "index_organizations_on_number", unique: true
-  end
+ActiveRecord::Schema.define(version: 2019_10_17_212502) do
 
   create_table "memberships", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -30,6 +22,14 @@ ActiveRecord::Schema.define(version: 2019_09_29_174004) do
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.string "number"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["number"], name: "index_organizations_on_number", unique: true
+  end
+
   create_table "registrations", force: :cascade do |t|
     t.integer "organization_id"
     t.string "user_id"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2019_09_29_174004) do
     t.string "confirmed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status", default: "accepted"
     t.index ["organization_id"], name: "index_registrations_on_organization_id"
     t.index ["user_id"], name: "index_registrations_on_user_id"
   end

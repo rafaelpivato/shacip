@@ -20,6 +20,7 @@ class Registration < ApplicationRecord
 
     transaction do
       self[:confirmed] = stamp
+      self[:status] = 'confirmed'
       self[:user_id] = create_or_get_user.id
       save!
       create_membership

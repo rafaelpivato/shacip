@@ -101,3 +101,12 @@ Registration.confirm(registration.id)
 endorsement = Endorsement.create(credentials)
 puts "Let user #{endorsement.user.name} sign in" if endorsement.recognized
 ```
+
+## Running Tests
+
+You can run end-to-end tests or unit tests with these rake tasks:
+
+```console
+$ rake test
+$ rake test:e2e
+```
