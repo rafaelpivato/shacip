@@ -43,11 +43,13 @@ class Registration < ApplicationRecord
 
   def user_params
     parsed = Rack::Utils.parse_nested_query(params)
+    parsed['password_digest'] = password_digest
     ActionController::Parameters.new(parsed).permit(:name, :nickname)
   end
 
   def create_or_get_user
-    User.create_with(user_params).find_or_create_by(email: email)
+    params = { password_digest: password_digest }.merge!(user_params)
+    User.create_with(params).find_or_create_by(email: email)
   end
 
   def create_membership

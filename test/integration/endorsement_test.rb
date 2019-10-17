@@ -7,7 +7,7 @@ class EndorsementTest < ActionDispatch::IntegrationTest
     credentials = { email: 'foo@example.com', password: 'foobar' }
     post endorsements_url, params: credentials
     assert_response :created
-    assert_equal 'rejected', json_response.dig('data', 'status')
+    assert_equal 'unknown', json_response.dig('data', 'status')
     assert_nil json_response.dig('data', 'user')
   end
 
@@ -16,7 +16,7 @@ class EndorsementTest < ActionDispatch::IntegrationTest
     credentials = { email: user.email, password: 'foobar' }
     post endorsements_url, params: credentials
     assert_response :created
-    assert_equal 'rejected', json_response.dig('data', 'status')
+    assert_equal 'unknown', json_response.dig('data', 'status')
     assert_nil json_response.dig('data', 'user')
   end
 
@@ -36,7 +36,7 @@ class EndorsementTest < ActionDispatch::IntegrationTest
     credentials = { email: user.email, password: 'JOHN' }
     post endorsements_url, params: credentials
     assert_response :created
-    assert_equal 'accepted', json_response.dig('data', 'status')
+    assert_equal 'recognized', json_response.dig('data', 'status')
     assert_not_nil json_response.dig('data', 'user')
     assert_equal user.email, json_response.dig('data', 'user', 'email')
   end

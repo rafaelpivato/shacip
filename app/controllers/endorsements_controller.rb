@@ -8,12 +8,12 @@ class EndorsementsController < ApplicationController
   def create
     user = User.find_by(email: endorsement_params[:email])
     if user.nil?
-      render json: { data: { status: :rejected, user: nil } }, status: :created
+      render json: { data: { status: :unknown, user: nil } }, status: :created
     elsif user.validate_password(endorsement_params[:password])
-      render json: { data: { status: :accepted, user: user.as_json } },
+      render json: { data: { status: :recognized, user: user.as_json } },
              status: :created
     else
-      render json: { data: { status: :rejected, user: nil } }, status: :created
+      render json: { data: { status: :unknown, user: nil } }, status: :created
     end
   end
 
