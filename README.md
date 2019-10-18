@@ -24,7 +24,7 @@ will be valid even if the credentials are not. That's because an endorsement
 resource gets created anyway.
 
 ```console
-$ http :3000/endorsements email=john@example.com password=johndoe
+$ http :3001/endorsements email=john@example.com password=johndoe
 {
   "data": {
     "status": "accepted",
@@ -53,7 +53,7 @@ a common workflow:
 3.  Update **Registration** resource telling the address was confirmed
 
 ```console
-$ http :3000/registrations email=john@example.com password=johndoe
+$ http :3001/registrations email=john@example.com password=johndoe
 {
   "data": {
     "id": 1234,
@@ -61,7 +61,7 @@ $ http :3000/registrations email=john@example.com password=johndoe
     ...
   }
 }
-$ http PATCH :3000/registrations/1234 confirmed=cmd.example.com
+$ http PATCH :3001/registrations/1234 confirmed=cmd.example.com
 {
   "data": {
     "id": 1234,
@@ -75,3 +75,38 @@ When you confirm the registration, an user record and an organization will be
 created for the user with the credentials provided during registration time.
 While sending an email to the new user, you will most likely wish to encode
 something like a JWT token containing the registration id from this system.
+
+## Client Library
+
+While using this service from another Rails or Ruby application, you should
+preferably use [Shacip Ruby](https://github.com/rafaelpivato/shacip-ruby) gem
+as your client library. That should help you adhering to minor changes made on
+the service in a more controlled fashion. Here is a simplified workflow:
+
+```ruby
+require 'shacip-client'
+
+# Configure the client
+Shacip::Client.configure do |config|
+  config.server_url = 'http://localhost:3001'
+  config.app_name = 'myapp.example.com'
+end
+
+# Register against Shacip
+credentials = { email: 'john@example.com', password: 'johndoe' }
+registration = Registration.create(credentials)
+Registration.confirm(registration.id)
+
+# Endorses user credential
+endorsement = Endorsement.create(credentials)
+puts "Let user #{endorsement.user.name} sign in" if endorsement.recognized
+```
+
+## Running Tests
+
+You can run end-to-end tests or unit tests with these rake tasks:
+
+```console
+$ rake test
+$ rake test:e2e
+```

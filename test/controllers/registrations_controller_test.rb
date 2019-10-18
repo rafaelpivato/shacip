@@ -22,6 +22,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response 201
+    assert_equal 'accepted', json_response.dig('data', 'status')
   end
 
   test 'should create registration with params' do
@@ -65,6 +66,8 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     }
     patch registration_url(@registration), params: params, as: :json
     assert_response 200
+    assert_equal 'confirmed', json_response.dig('data', 'status')
+    assert_equal 'myapp.example.com', json_response.dig('data', 'confirmed')
   end
 
   test 'should destroy registration' do

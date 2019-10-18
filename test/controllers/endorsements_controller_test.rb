@@ -7,6 +7,7 @@ class EndorsementsControllerTest < ActionDispatch::IntegrationTest
     user = users(:john)
     credentials = { email: user.email, password: user.nickname.upcase }
     post endorsements_url, params: credentials
-    assert_response :success
+    assert_response :created
+    assert_not_nil json_response.dig('data', 'status')
   end
 end
