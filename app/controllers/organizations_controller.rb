@@ -8,7 +8,12 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations
   def index
-    @organizations = Organization.all
+    if params.include? :user_id
+      user = User.find(params[:user_id])
+      @organizations = user.organizations
+    else
+      @organizations = Organization.all
+    end
 
     render json: { data: @organizations }
   end
